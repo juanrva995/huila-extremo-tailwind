@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Huila Extremo &amp; Ancestral | Ecoturismo y Aventura</title>
+
+  <!-- Importación de Google Fonts: Montserrat y Open Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS v4 Play CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Configuración personalizada de tema con @theme (Regla 60-30-10 y Semánticos) -->
+  <style type="text/tailwindcss">
+    @custom-variant dark (&:where(.dark, .dark *));
+
+    @theme {
+      --color-dominante: #F7F9F8;
+      --color-secundario: #132A24;
+      --color-acento: #D9531E;
+      --color-exito: #15803D;
+      --color-error: #DC2626;
+      --color-advertencia: #D97706;
+
+      --font-titulos: "Montserrat", sans-serif;
+      --font-cuerpo: "Open Sans", sans-serif;
+    }
+
+    body {
+      font-family: var(--font-cuerpo);
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-titulos);
+    }
+  </style>
+</head>
+<body class="bg-dominante text-secundario dark:bg-[#0B1512] dark:text-[#F7F9F8] transition-colors duration-300">
+
+  <!-- ==================== 1. NAVBAR FIJA ==================== -->
+  <header class="fixed top-0 inset-x-0 z-40 bg-dominante/95 dark:bg-secundario/95 backdrop-blur border-b border-secundario/10 dark:border-white/10">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Navegación principal">
+      <!-- Logo en texto -->
+      <a href="#inicio" class="text-xl font-extrabold tracking-tight text-secundario dark:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento rounded">
+        Huila <span class="text-acento">Extremo</span>
+      </a>
+
+      <!-- Enlaces de escritorio -->
+      <div class="hidden md:flex items-center gap-6 text-sm font-semibold">
+        <a href="#nosotros" class="hover:text-acento transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento rounded px-1">Nosotros</a>
+        <a href="#planes" class="hover:text-acento transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento rounded px-1">Planes</a>
+        <a href="#faq" class="hover:text-acento transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento rounded px-1">Preguntas</a>
+        <a href="#contacto" class="bg-acento text-white px-4 py-2 rounded-lg hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-acento">
+          Reservar
+        </a>
+      </div>
+
+      <!-- Controles de modo oscuro y menú hamburguesa -->
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle" type="button" aria-label="Cambiar entre modo claro y modo oscuro"
+          class="p-2 rounded-lg border border-secundario/20 dark:border-white/20 hover:bg-secundario/5 dark:hover:bg-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+          <!-- Icono Luna (modo claro activo) -->
+          <svg id="icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+          <!-- Icono Sol (modo oscuro activo) -->
+          <svg id="icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path stroke-linecap="round" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
+        </button>
+
+        <button id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú de navegación"
+          class="md:hidden p-2 rounded-lg border border-secundario/20 dark:border-white/20 hover:bg-secundario/5 dark:hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Menú desplegable móvil -->
+    <div id="mobile-menu" class="hidden md:hidden bg-dominante dark:bg-secundario border-b border-secundario/10 dark:border-white/10 px-4 pt-2 pb-4 space-y-2">
+      <a href="#nosotros" class="mobile-link block py-2 font-semibold hover:text-acento">Nosotros</a>
+      <a href="#planes" class="mobile-link block py-2 font-semibold hover:text-acento">Planes Turísticos</a>
+      <a href="#faq" class="mobile-link block py-2 font-semibold hover:text-acento">Preguntas Frecuentes</a>
+      <a href="#contacto" class="mobile-link block py-2 px-4 rounded-lg bg-acento text-white font-semibold text-center">Reservar ahora</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== 2. HERO ==================== -->
+    <section id="inicio" class="relative min-h-[88vh] pt-16 flex items-center justify-center text-white">
+      <img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1600&q=80"
+        alt="Paisaje árido de formaciones rocosas rojizas al atardecer similar al Desierto de la Tatacoa en el Huila"
+        class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-secundario/75"></div>
+
+      <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
+        <span class="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-acento text-white">
+          Ecoturismo &amp; Cultura en el Huila
+        </span>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+          Explora la magia natural y ancestral del Huila
+        </h1>
+        <p class="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
+          Desde las estrellas del Desierto de la Tatacoa hasta los misterios megalíticos de San Agustín y las cavernas de Paicol. Vive rutas guiadas con identidad opita.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <a href="#planes" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-acento text-white font-bold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+            Explorar planes
+          </a>
+          <a href="#contacto" class="w-full sm:w-auto px-6 py-3.5 rounded-xl border-2 border-white text-white font-bold hover:bg-white hover:text-secundario transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            Cotizar viaje
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. NOSOTROS ==================== -->
+    <section id="nosotros" class="py-16 lg:py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div class="space-y-5">
+          <span class="text-xs font-bold uppercase tracking-wider text-acento">Sobre nuestra agencia</span>
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">
+            Turismo sostenible liderado por anfitriones locales
+          </h2>
+          <p class="text-base leading-relaxed text-secundario/85 dark:text-gray-300">
+            En <strong>Huila Extremo &amp; Ancestral</strong> diseñamos expediciones auténticas conectando a viajeros con las comunidades rurales, guías certificados y reservas naturales del departamento.
+          </p>
+          <p class="text-base leading-relaxed text-secundario/85 dark:text-gray-300">
+            Priorizamos grupos reducidos para minimizar el impacto ambiental y garantizar acompañamiento personalizado en cada sendero, cascada o sitio arqueológico.
+          </p>
+
+          <!-- 3 Indicadores clave -->
+          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-secundario/15 dark:border-white/15">
+            <div>
+              <p class="text-2xl font-extrabold text-acento">100%</p>
+              <p class="text-xs font-semibold text-secundario/80 dark:text-gray-300">Guías locales certificados</p>
+            </div>
+            <div>
+              <p class="text-2xl font-extrabold text-acento">Máx. 12</p>
+              <p class="text-xs font-semibold text-secundario/80 dark:text-gray-300">Viajeros por grupo</p>
+            </div>
+            <div>
+              <p class="text-2xl font-extrabold text-acento">24/7</p>
+              <p class="text-xs font-semibold text-secundario/80 dark:text-gray-300">Seguro y asistencia</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl overflow-hidden shadow-lg border border-secundario/10 dark:border-white/10">
+          <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=1000&q=80"
+            alt="Excursionistas caminando por un sendero de montaña verde en el sur del Huila"
+            class="w-full h-80 sm:h-96 object-cover" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. PLANES TURÍSTICOS (CON FILTRO) ==================== -->
+    <section id="planes" class="py-16 lg:py-24 bg-secundario/5 dark:bg-secundario/40">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto space-y-3 mb-10">
+          <span class="text-xs font-bold uppercase tracking-wider text-acento">Destinos imperdibles</span>
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Nuestros Planes Turísticos</h2>
+          <p class="text-base text-secundario/80 dark:text-gray-300">
+            Filtra por el tipo de experiencia que buscas y descubre las maravillas del departamento del Huila.
+          </p>
+        </div>
+
+        <!-- Botones de filtro (Componente Extra) -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10" role="group" aria-label="Filtrar planes turísticos por categoría">
+          <button type="button" data-filter="todos" class="filter-btn px-4 py-2 rounded-full text-sm font-semibold bg-acento text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            Todos
+          </button>
+          <button type="button" data-filter="aventura" class="filter-btn px-4 py-2 rounded-full text-sm font-semibold bg-white dark:bg-secundario border border-secundario/20 dark:border-white/20 hover:border-acento transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            Aventura
+          </button>
+          <button type="button" data-filter="cultura" class="filter-btn px-4 py-2 rounded-full text-sm font-semibold bg-white dark:bg-secundario border border-secundario/20 dark:border-white/20 hover:border-acento transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            Cultura
+          </button>
+          <button type="button" data-filter="naturaleza" class="filter-btn px-4 py-2 rounded-full text-sm font-semibold bg-white dark:bg-secundario border border-secundario/20 dark:border-white/20 hover:border-acento transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            Naturaleza
+          </button>
+        </div>
+
+        <!-- Grid de tarjetas responsive -->
+        <div id="planes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Tarjeta 1 -->
+          <article data-category="naturaleza" class="plan-card bg-white dark:bg-secundario rounded-2xl overflow-hidden shadow-md border border-secundario/10 dark:border-white/10 flex flex-col transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=800&q=80"
+              alt="Laberintos rojos del Cusco en el Desierto de la Tatacoa, Villavieja"
+              class="w-full h-52 object-cover" />
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold uppercase">
+                  <span class="text-acento">Naturaleza</span>
+                  <span class="text-secundario/70 dark:text-gray-300">2 días / 1 noche</span>
+                </div>
+                <h3 class="text-xl font-bold">Desierto de la Tatacoa &amp; Estrellas</h3>
+                <p class="text-sm text-secundario/80 dark:text-gray-300 leading-relaxed">
+                  Recorrido por los laberintos del Cusco, Valle de los Xilópalos y observación astronómica nocturna con guía especializado.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-secundario/10 dark:border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs block text-secundario/70 dark:text-gray-400">Desde</span>
+                  <span class="text-lg font-extrabold">$340.000 COP</span>
+                </div>
+                <a href="#contacto" class="px-4 py-2 rounded-lg bg-secundario dark:bg-acento text-white text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+                  Reservar
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tarjeta 2 -->
+          <article data-category="cultura" class="plan-card bg-white dark:bg-secundario rounded-2xl overflow-hidden shadow-md border border-secundario/10 dark:border-white/10 flex flex-col transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80"
+              alt="Esculturas talladas en piedra rodeadas de bosque andino en San Agustín"
+              class="w-full h-52 object-cover" />
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold uppercase">
+                  <span class="text-acento">Cultura</span>
+                  <span class="text-secundario/70 dark:text-gray-300">2 días / 1 noche</span>
+                </div>
+                <h3 class="text-xl font-bold">Ruta Arqueológica San Agustín</h3>
+                <p class="text-sm text-secundario/80 dark:text-gray-300 leading-relaxed">
+                  Visita al Parque Arqueológico, Estrecho del Río Magdalena y taller de café especial con familias caficultoras del sur.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-secundario/10 dark:border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs block text-secundario/70 dark:text-gray-400">Desde</span>
+                  <span class="text-lg font-extrabold">$390.000 COP</span>
+                </div>
+                <a href="#contacto" class="px-4 py-2 rounded-lg bg-secundario dark:bg-acento text-white text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+                  Reservar
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tarjeta 3 -->
+          <article data-category="aventura" class="plan-card bg-white dark:bg-secundario rounded-2xl overflow-hidden shadow-md border border-secundario/10 dark:border-white/10 flex flex-col transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80"
+              alt="Exploración espeleológica y descenso en cascada en la Caja de Agua, Paicol"
+              class="w-full h-52 object-cover" />
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold uppercase">
+                  <span class="text-acento">Aventura</span>
+                  <span class="text-secundario/70 dark:text-gray-300">Full Day (1 día)</span>
+                </div>
+                <h3 class="text-xl font-bold">Caja de Agua &amp; Rafting en Paicol</h3>
+                <p class="text-sm text-secundario/80 dark:text-gray-300 leading-relaxed">
+                  Espeleología en caverna natural subterránea, cascada La Motilona y descenso en balsa por el río Páez con equipos certificados.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-secundario/10 dark:border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs block text-secundario/70 dark:text-gray-400">Desde</span>
+                  <span class="text-lg font-extrabold">$210.000 COP</span>
+                </div>
+                <a href="#contacto" class="px-4 py-2 rounded-lg bg-secundario dark:bg-acento text-white text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+                  Reservar
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tarjeta 4 -->
+          <article data-category="naturaleza" class="plan-card bg-white dark:bg-secundario rounded-2xl overflow-hidden shadow-md border border-secundario/10 dark:border-white/10 flex flex-col transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=800&q=80"
+              alt="Gran caída de agua rodeada de vegetación exuberante en el Salto de Bordones"
+              class="w-full h-52 object-cover" />
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold uppercase">
+                  <span class="text-acento">Naturaleza</span>
+                  <span class="text-secundario/70 dark:text-gray-300">Full Day (1 día)</span>
+                </div>
+                <h3 class="text-xl font-bold">Salto de Bordones &amp; Mortiño</h3>
+                <p class="text-sm text-secundario/80 dark:text-gray-300 leading-relaxed">
+                  Miradores panorámicos de las caídas de agua más altas del Huila en Isnos, senderismo ecológico y almuerzo típico opita.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-secundario/10 dark:border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs block text-secundario/70 dark:text-gray-400">Desde</span>
+                  <span class="text-lg font-extrabold">$195.000 COP</span>
+                </div>
+                <a href="#contacto" class="px-4 py-2 rounded-lg bg-secundario dark:bg-acento text-white text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+                  Reservar
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tarjeta 5 -->
+          <article data-category="aventura" class="plan-card bg-white dark:bg-secundario rounded-2xl overflow-hidden shadow-md border border-secundario/10 dark:border-white/10 flex flex-col transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <img src="https://images.unsplash.com/photo-1533692328991-08159ff19fca?auto=format&fit=crop&w=800&q=80"
+              alt="Vista panorámica de montañas y mirador de cristal en Gigante, Huila"
+              class="w-full h-52 object-cover" />
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold uppercase">
+                  <span class="text-acento">Aventura</span>
+                  <span class="text-secundario/70 dark:text-gray-300">Full Day (1 día)</span>
+                </div>
+                <h3 class="text-xl font-bold">La Mano del Gigante &amp; Parapente</h3>
+                <p class="text-sm text-secundario/80 dark:text-gray-300 leading-relaxed">
+                  Ascenso a la montaña de Gigante con vista a la Represa de Betania, columpio extremo y vuelo opcional en parapente.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-secundario/10 dark:border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs block text-secundario/70 dark:text-gray-400">Desde</span>
+                  <span class="text-lg font-extrabold">$230.000 COP</span>
+                </div>
+                <a href="#contacto" class="px-4 py-2 rounded-lg bg-secundario dark:bg-acento text-white text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+                  Reservar
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tarjeta 6 -->
+          <article data-category="cultura" class="plan-card bg-white dark:bg-secundario rounded-2xl overflow-hidden shadow-md border border-secundario/10 dark:border-white/10 flex flex-col transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80"
+              alt="Taza de café especial recién filtrado en finca cafetera del Huila"
+              class="w-full h-52 object-cover" />
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold uppercase">
+                  <span class="text-acento">Cultura</span>
+                  <span class="text-secundario/70 dark:text-gray-300">Medio día</span>
+                </div>
+                <h3 class="text-xl font-bold">Ruta del Café Especial &amp; Termales</h3>
+                <p class="text-sm text-secundario/80 dark:text-gray-300 leading-relaxed">
+                  Catación de café de origen huilense en finca tradicional de Rivera y tarde de relajación en aguas termales naturales.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-secundario/10 dark:border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs block text-secundario/70 dark:text-gray-400">Desde</span>
+                  <span class="text-lg font-extrabold">$165.000 COP</span>
+                </div>
+                <a href="#contacto" class="px-4 py-2 rounded-lg bg-secundario dark:bg-acento text-white text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+                  Reservar
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 5. PREGUNTAS FRECUENTES (ACORDEÓN) ==================== -->
+    <section id="faq" class="py-16 lg:py-24 max-w-3xl mx-auto px-4 sm:px-6">
+      <div class="text-center space-y-3 mb-10">
+        <span class="text-xs font-bold uppercase tracking-wider text-acento">Resolvemos tus dudas</span>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Preguntas Frecuentes</h2>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Pregunta 1 -->
+        <div class="border border-secundario/15 dark:border-white/15 rounded-xl overflow-hidden bg-white dark:bg-secundario">
+          <button type="button" aria-expanded="false" class="faq-btn w-full px-6 py-4 text-left font-bold flex items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            <span>¿Desde qué ciudad salen los tours y qué incluye el transporte?</span>
+            <span class="faq-icon text-acento text-xl font-bold transition-transform">+</span>
+          </button>
+          <div class="faq-panel hidden px-6 pb-4 text-sm text-secundario/85 dark:text-gray-300 leading-relaxed">
+            Contamos con puntos de encuentro en Neiva (Aeropuerto Benito Salas y Terminal) y salidas directas desde Paicol o San Agustín según el plan elegido. Todos los planes incluyen transporte terrestre turístico con aire acondicionado y seguro contractual.
+          </div>
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div class="border border-secundario/15 dark:border-white/15 rounded-xl overflow-hidden bg-white dark:bg-secundario">
+          <button type="button" aria-expanded="false" class="faq-btn w-full px-6 py-4 text-left font-bold flex items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            <span>¿Qué ropa y equipo debo llevar para la Tatacoa o Paicol?</span>
+            <span class="faq-icon text-acento text-xl font-bold transition-transform">+</span>
+          </button>
+          <div class="faq-panel hidden px-6 pb-4 text-sm text-secundario/85 dark:text-gray-300 leading-relaxed">
+            Para el Desierto de la Tatacoa recomendamos ropa fresca, sombrero, bloqueador solar e hidratación. Para Paicol y actividades acuáticas lleva calzado con buen agarre que se pueda mojar y ropa de cambio; nosotros te entregamos casco, chaleco y linterna frontal.
+          </div>
+        </div>
+
+        <!-- Pregunta 3 -->
+        <div class="border border-secundario/15 dark:border-white/15 rounded-xl overflow-hidden bg-white dark:bg-secundario">
+          <button type="button" aria-expanded="false" class="faq-btn w-full px-6 py-4 text-left font-bold flex items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            <span>¿Con cuánta anticipación debo reservar mi cupo?</span>
+            <span class="faq-icon text-acento text-xl font-bold transition-transform">+</span>
+          </button>
+          <div class="faq-panel hidden px-6 pb-4 text-sm text-secundario/85 dark:text-gray-300 leading-relaxed">
+            Sugerimos reservar al menos con 3 días de anticipación en temporada baja y 10 días en puentes festivos o Semana Santa para asegurar disponibilidad de alojamiento y guías.
+          </div>
+        </div>
+
+        <!-- Pregunta 4 -->
+        <div class="border border-secundario/15 dark:border-white/15 rounded-xl overflow-hidden bg-white dark:bg-secundario">
+          <button type="button" aria-expanded="false" class="faq-btn w-full px-6 py-4 text-left font-bold flex items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento">
+            <span>¿Realizan planes privados para familias o grupos universitarios?</span>
+            <span class="faq-icon text-acento text-xl font-bold transition-transform">+</span>
+          </button>
+          <div class="faq-panel hidden px-6 pb-4 text-sm text-secundario/85 dark:text-gray-300 leading-relaxed">
+            Sí, personalizamos itinerarios privados a la medida para grupos de 4 a 15 personas con tarifas especiales y horarios flexibles.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 6. FORMULARIO DE COTIZACIÓN Y RESERVA ==================== -->
+    <section id="contacto" class="py-16 lg:py-24 bg-secundario text-white">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6">
+        <div class="text-center space-y-3 mb-10">
+          <span class="text-xs font-bold uppercase tracking-wider text-acento">Planifica tu próxima aventura</span>
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Cotiza o Reserva tu Plan</h2>
+          <p class="text-sm sm:text-base text-gray-300">
+            Completa tus datos y un asesor local te enviará el itinerario detallado y disponibilidad en menos de 2 horas.
+          </p>
+        </div>
+
+        <form id="reserva-form" novalidate class="bg-white dark:bg-[#0B1512] text-secundario dark:text-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-5">
+          <!-- Nombre -->
+          <div>
+            <label for="nombre" class="block text-sm font-semibold mb-1.5">Nombre completo *</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej. Camila Andrea Gómez"
+              class="w-full px-4 py-2.5 rounded-lg border border-secundario/25 dark:border-white/20 bg-transparent focus:outline-none focus:ring-2 focus:ring-acento" />
+            <p id="error-nombre" class="hidden text-xs font-semibold text-error mt-1">Por favor ingresa tu nombre completo.</p>
+          </div>
+
+          <!-- Correo -->
+          <div>
+            <label for="correo" class="block text-sm font-semibold mb-1.5">Correo electrónico *</label>
+            <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com"
+              class="w-full px-4 py-2.5 rounded-lg border border-secundario/25 dark:border-white/20 bg-transparent focus:outline-none focus:ring-2 focus:ring-acento" />
+            <p id="error-correo" class="hidden text-xs font-semibold text-error mt-1">Ingresa un correo electrónico válido.</p>
+          </div>
+
+          <!-- Plan y Fecha -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="plan" class="block text-sm font-semibold mb-1.5">Plan de interés *</label>
+              <select id="plan" name="plan"
+                class="w-full px-4 py-2.5 rounded-lg border border-secundario/25 dark:border-white/20 bg-white dark:bg-secundario focus:outline-none focus:ring-2 focus:ring-acento">
+                <option value="">Selecciona un destino...</option>
+                <option value="tatacoa">Desierto de la Tatacoa &amp; Estrellas</option>
+                <option value="san-agustin">Ruta Arqueológica San Agustín</option>
+                <option value="paicol">Caja de Agua &amp; Rafting en Paicol</option>
+                <option value="bordones">Salto de Bordones &amp; Mortiño</option>
+                <option value="gigante">La Mano del Gigante &amp; Parapente</option>
+                <option value="cafe-rivera">Ruta del Café Especial &amp; Termales</option>
+              </select>
+              <p id="error-plan" class="hidden text-xs font-semibold text-error mt-1">Selecciona uno de nuestros planes.</p>
+            </div>
+
+            <div>
+              <label for="fecha" class="block text-sm font-semibold mb-1.5">Fecha tentativa de viaje *</label>
+              <input type="date" id="fecha" name="fecha"
+                class="w-full px-4 py-2.5 rounded-lg border border-secundario/25 dark:border-white/20 bg-transparent focus:outline-none focus:ring-2 focus:ring-acento" />
+              <p id="error-fecha" class="hidden text-xs font-semibold text-error mt-1">Elige una fecha tentativa para tu viaje.</p>
+            </div>
+          </div>
+
+          <!-- Número de viajeros -->
+          <div>
+            <label for="viajeros" class="block text-sm font-semibold mb-1.5">Número de viajeros (1 a 15) *</label>
+            <input type="number" id="viajeros" name="viajeros" min="1" max="15" value="2"
+              class="w-full px-4 py-2.5 rounded-lg border border-secundario/25 dark:border-white/20 bg-transparent focus:outline-none focus:ring-2 focus:ring-acento" />
+            <p id="error-viajeros" class="hidden text-xs font-semibold text-error mt-1">Indica un número válido entre 1 y 15 viajeros.</p>
+          </div>
+
+          <button type="submit"
+            class="w-full py-3.5 px-6 rounded-xl bg-acento text-white font-bold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-acento">
+            Solicitar cotización ahora
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 7. PIE DE PÁGINA ==================== -->
+  <footer class="bg-[#0B1512] text-gray-300 py-12 border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="space-y-2">
+        <p class="text-xl font-extrabold text-white">Huila <span class="text-acento">Extremo</span></p>
+        <p class="text-sm leading-relaxed">
+          Agencia operadora de ecoturismo sostenible, aventura y patrimonio cultural en el departamento del Huila, Colombia.
+        </p>
+      </div>
+
+      <div class="space-y-2 text-sm">
+        <p class="font-bold text-white uppercase tracking-wider text-xs">Contacto y Ubicación</p>
+        <p>Calle 8 # 5-42, Centro — Neiva &amp; Paicol, Huila</p>
+        <p>Horario: Lunes a Sábado, 8:00 a.m. – 6:00 p.m.</p>
+        <p>Tel: +57 (312) 555-0194</p>
+      </div>
+
+      <div class="space-y-2 text-sm">
+        <p class="font-bold text-white uppercase tracking-wider text-xs">Síguenos</p>
+        <div class="flex gap-4 pt-1">
+          <a href="#inicio" class="hover:text-acento transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento rounded">Instagram</a>
+          <a href="#inicio" class="hover:text-acento transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento rounded">Facebook</a>
+          <a href="#inicio" class="hover:text-acento transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acento rounded">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-6 border-t border-white/10 text-center text-xs text-gray-400">
+      &copy; 2026 Huila Extremo &amp; Ancestral. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <!-- ==================== TOAST DE CONFIRMACIÓN ==================== -->
+  <div id="toast-exito" role="status" aria-live="polite"
+    class="hidden fixed bottom-5 right-5 z-50 bg-exito text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 transition-opacity duration-300">
+    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+    <span class="text-sm font-semibold">¡Solicitud enviada! Pronto te contactaremos con tu itinerario.</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT PURO ==================== -->
+  <script>
+    // 1. Alternar modo claro / modo oscuro
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+    const iconMoon = document.getElementById('icon-moon');
+    const iconSun = document.getElementById('icon-sun');
+
+    themeToggleBtn.addEventListener('click', () => {
+      htmlElement.classList.toggle('dark');
+      const isDark = htmlElement.classList.contains('dark');
+      iconMoon.classList.toggle('hidden', isDark);
+      iconSun.classList.toggle('hidden', !isDark);
+    });
+
+    // 2. Menú hamburguesa móvil
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    menuBtn.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.toggle('hidden');
+      menuBtn.setAttribute('aria-expanded', String(!isHidden));
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // 3. Filtro de planes turísticos (Componente Extra)
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const planCards = document.querySelectorAll('.plan-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.getAttribute('data-filter');
+
+        // Actualizar estilos de botones activos
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-acento', 'text-white');
+          b.classList.add('bg-white', 'dark:bg-secundario');
+        });
+        btn.classList.remove('bg-white', 'dark:bg-secundario');
+        btn.classList.add('bg-acento', 'text-white');
+
+        // Mostrar u ocultar tarjetas según categoría
+        planCards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (category === 'todos' || cardCategory === category) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // 4. Acordeón de Preguntas Frecuentes
+    const faqButtons = document.querySelectorAll('.faq-btn');
+
+    faqButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = btn.nextElementSibling;
+        const icon = btn.querySelector('.faq-icon');
+        const isOpen = !panel.classList.contains('hidden');
+
+        panel.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        icon.textContent = isOpen ? '+' : '−';
+      });
+    });
+
+    // 5. Validación del formulario y Toast de confirmación
+    const reservaForm = document.getElementById('reserva-form');
+    const toastExito = document.getElementById('toast-exito');
+
+    reservaForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let isValid = true;
+
+      const nombre = document.getElementById('nombre');
+      const correo = document.getElementById('correo');
+      const plan = document.getElementById('plan');
+      const fecha = document.getElementById('fecha');
+      const viajeros = document.getElementById('viajeros');
+
+      const errNombre = document.getElementById('error-nombre');
+      const errCorreo = document.getElementById('error-correo');
+      const errPlan = document.getElementById('error-plan');
+      const errFecha = document.getElementById('error-fecha');
+      const errViajeros = document.getElementById('error-viajeros');
+
+      // Validar nombre
+      if (nombre.value.trim().length < 3) {
+        errNombre.classList.remove('hidden');
+        isValid = false;
+      } else {
+        errNombre.classList.add('hidden');
+      }
+
+      // Validar correo
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(correo.value.trim())) {
+        errCorreo.classList.remove('hidden');
+        isValid = false;
+      } else {
+        errCorreo.classList.add('hidden');
+      }
+
+      // Validar plan
+      if (!plan.value) {
+        errPlan.classList.remove('hidden');
+        isValid = false;
+      } else {
+        errPlan.classList.add('hidden');
+      }
+
+      // Validar fecha
+      if (!fecha.value) {
+        errFecha.classList.remove('hidden');
+        isValid = false;
+      } else {
+        errFecha.classList.add('hidden');
+      }
+
+      // Validar número de viajeros
+      const numViajeros = parseInt(viajeros.value, 10);
+      if (isNaN(numViajeros) || numViajeros < 1 || numViajeros > 15) {
+        errViajeros.classList.remove('hidden');
+        isValid = false;
+      } else {
+        errViajeros.classList.add('hidden');
+      }
+
+      // Si todo es válido, limpiar y mostrar toast por 4 segundos
+      if (isValid) {
+        reservaForm.reset();
+        toastExito.classList.remove('hidden');
+        setTimeout(() => {
+          toastExito.classList.add('hidden');
+        }, 4000);
+      }
+    });
+  </script>
+</body>
+</html>
